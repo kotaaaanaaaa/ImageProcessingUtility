@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using ImageProcessingUtility.Processor;
+using MaterialDesignThemes.Wpf;
+using Window = System.Windows.Window;
 
 namespace ImageProcessingUtility
 {
@@ -20,9 +12,34 @@ namespace ImageProcessingUtility
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MainWindowViewModel Vm;
         public MainWindow()
         {
             InitializeComponent();
+            var model = new ImageProcessModel();
+            model.AddProcess(new ConvertGrayscale());
+            model.AddProcess(new Trim());
+
+            model.LoadImage("sample.jpg");
+            Vm = new MainWindowViewModel { IPModel = model };
+            DataContext = Vm;
+        }
+
+        private async void EditParameterOnClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            var process = button.CommandParameter as IProcess;
+            if (process == null) return;
+
+            await ShowParameterEditDialog(process.EditParameterDialog);
+        }
+
+        private async Task ShowParameterEditDialog(UserControl dialog)
+        {
+            var result = (bool)await DialogHost.Show(dialog);
+            if (result) Vm.Refresh();
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="ImageProcessingUtility.ParameterEditDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageProcessingUtility"
+             xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" Cursor="Hand">
+    <StackPanel Margin="16">
+        <TextBlock Text="Process Name" x:Name="Title" FontSize="24"/>
+        <TextBlock Text="Explain what this process does." x:Name="Detail"/>
+        <StackPanel x:Name="ParameterControls">
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="0,5,0,0">
+            <Button Content="OK"
+                    IsDefault="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static material:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{StaticResource TrueValue}"/>
+            <Button Content="Cancel"
+                    IsCancel="True"
+                    Style="{DynamicResource MaterialDesignFlatButton}"
+                    Command="{x:Static material:DialogHost.CloseDialogCommand}"
+                    CommandParameter="{StaticResource FalseValue}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

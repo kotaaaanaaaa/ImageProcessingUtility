@@ -4,9 +4,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageProcessingUtility"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        d:DataContext="{d:DesignInstance {x:Type local:MainWindowViewModelSample},IsDesignTimeCreatable=True}"
+        Title="MainWindow" Height="439" Width="800">
+    <materialDesign:DialogHost>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Image x:Name="SourceImage" Height="200" Width="200" Source="{Binding SourceImage}"/>
+                <Image x:Name="ResultImage" Height="200" Width="200" Source="{Binding ResultImage}"/>
+            </StackPanel>
+            <DataGrid Grid.Column="1"
+                      ItemsSource="{Binding IPModel.Processes}"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Description"
+                                        Binding="{Binding Description}" />
+                    <DataGridTemplateColumn Header="Param">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Height="20" Width="40"
+                                        Click="EditParameterOnClick"
+                                        CommandParameter="{Binding}"
+                                        IsEnabled="{Binding CanEditParameter}"
+                                        Visibility="{Binding EditParameterVisibility}" Cursor="Hand" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </materialDesign:DialogHost>
 </Window>
