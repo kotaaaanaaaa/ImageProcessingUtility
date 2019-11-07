@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImageProcessingUtility"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance {x:Type local:MainWindowViewModelSample},IsDesignTimeCreatable=True}"
         Title="MainWindow" Height="439" Width="800">
@@ -31,7 +32,9 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0"
                                        Text="Parameters"/>
-                            <Button Grid.Column="1" Height="20" Width="20" Cursor="Hand"
+                            <Button Grid.Column="1"
+                                    Height="20" Width="20"
+                                    Cursor="Hand"
                                     Style="{StaticResource MaterialDesignIconButton}"
                                     Click="AddProcessOnClick">
                                 <materialDesign:PackIcon Kind="Add" 
@@ -49,23 +52,25 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Description"
                                             Binding="{Binding Description}" />
-                        <DataGridTemplateColumn Header="Parameter" Width="30">
+                        <DataGridTemplateColumn Header="Parameter"
+                                                Width="30">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Height="20" Width="20" Margin="-15,0,-5,0"
-                                        Style="{StaticResource MaterialDesignIconButton}"
-                                        Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
-                                        Click="EditParameterOnClick"
-                                        CommandParameter="{Binding}"
-                                        IsEnabled="{Binding CanEditParameter}"
-                                        Visibility="{Binding EditParameterVisibility}">
+                                            Style="{StaticResource MaterialDesignIconButton}"
+                                            Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
+                                            Click="EditParameterOnClick"
+                                            CommandParameter="{Binding}"
+                                            IsEnabled="{Binding CanEditParameter}"
+                                            Visibility="{Binding EditParameterVisibility}">
                                         <materialDesign:PackIcon Kind="SettingsOutline"
                                                                  Height="15" Width="15"/>
                                     </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Delete" Width="30">
+                        <DataGridTemplateColumn Header="Delete"
+                                                Width="30">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Height="20" Width="20" Margin="-15,0,-5,0"
@@ -82,6 +87,105 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <lvc:CartesianChart Grid.Row="0"
+                                    Margin="5"
+                                    Hoverable="False"
+                                    Background="SlateGray"
+                                    DataTooltip="{x:Null}">
+                    <lvc:CartesianChart.Series>
+                        <lvc:LineSeries Values="{Binding SourceBlueHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#990000FF"
+                                        PointGeometry="{x:Null}" />
+                        <lvc:LineSeries Values="{Binding SourceGreenHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#9900FF00"
+                                        PointGeometry="{x:Null}" />
+                        <lvc:LineSeries Values="{Binding SourceRedHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#99FF0000"
+                                        PointGeometry="{x:Null}" />
+                        <lvc:LineSeries Values="{Binding SourceHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#99FFFFFF"
+                                        PointGeometry="{x:Null}" />
+                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis MinValue="0" MaxValue="256"
+                                  ShowLabels="False">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis MinValue="0"
+                                  ShowLabels="False">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+                <TextBlock Grid.Row="0"
+                           Margin="10"
+                           Foreground="WhiteSmoke"
+                           Text="Source Histogram"/>
+                <lvc:CartesianChart Grid.Row="1"
+                                    Margin="5"
+                                    Hoverable="False"
+                                    Background="SlateGray"
+                                    DataTooltip="{x:Null}">
+                    <lvc:CartesianChart.Series>
+                        <lvc:LineSeries Values="{Binding ResultBlueHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#990000FF"
+                                        PointGeometry="{x:Null}" />
+                        <lvc:LineSeries Values="{Binding ResultGreenHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#9900FF00"
+                                        PointGeometry="{x:Null}" />
+                        <lvc:LineSeries Values="{Binding ResultRedHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#99FF0000"
+                                        PointGeometry="{x:Null}" />
+                        <lvc:LineSeries Values="{Binding ResultHistogram}"
+                                        StrokeThickness="1"
+                                        LineSmoothness="0"
+                                        Stroke="Transparent"
+                                        Fill="#99FFFFFF"
+                                        PointGeometry="{x:Null}" />
+                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis MinValue="0" MaxValue="256"
+                                  ShowLabels="False">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis MinValue="0"
+                                  ShowLabels="False">
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+                <TextBlock Grid.Row="1"
+                           Margin="10"
+                           Foreground="WhiteSmoke"
+                           Text="Result Histogram"/>
+            </Grid>
         </Grid>
     </materialDesign:DialogHost>
 </Window>
