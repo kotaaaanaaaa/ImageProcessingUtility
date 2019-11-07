@@ -41,5 +41,22 @@ namespace ImageProcessingUtility
             var result = (bool)await DialogHost.Show(dialog);
             if (result) Vm.Refresh();
         }
+
+        private async void AddProcessOnClick(object sender, RoutedEventArgs e)
+        {
+            Vm.Refresh();
+        }
+
+        private async void DeleteProcessOnClick(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null) return;
+
+            var process = button.CommandParameter as IProcess;
+            if (process == null) return;
+
+            Vm.IPModel.Processes.Remove(process);
+            Vm.Refresh();
+        }
     }
 }
