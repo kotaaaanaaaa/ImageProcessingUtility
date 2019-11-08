@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using ImageProcessingUtility.Processor;
+using MaterialDesignThemes.Wpf;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using ImageProcessingUtility.Processor;
-using MaterialDesignThemes.Wpf;
 using Window = System.Windows.Window;
 
 namespace ImageProcessingUtility
@@ -17,8 +17,6 @@ namespace ImageProcessingUtility
         {
             InitializeComponent();
             var model = new ImageProcessModel();
-            model.AddProcess(new ConvertGrayscale());
-            model.AddProcess(new Trim());
 
             model.LoadImage("sample.jpg");
             Vm = new MainWindowViewModel { IPModel = model };
@@ -44,6 +42,19 @@ namespace ImageProcessingUtility
 
         private async void AddProcessOnClick(object sender, RoutedEventArgs e)
         {
+            await ShowProcessAddDialog();
+        }
+
+        private async Task ShowProcessAddDialog()
+        {
+            var dialog = new ProcessAddDialog();
+            var result = await DialogHost.Show(dialog);
+            var process = result as IProcess;
+            if (process == null)
+            {
+                return;
+            }
+            Vm.IPModel.Processes.Add(process);
             Vm.Refresh();
         }
 
@@ -55,6 +66,11 @@ namespace ImageProcessingUtility
             var process = button.CommandParameter as IProcess;
             if (process == null) return;
 
+            await RemoveProcess(process);
+        }
+
+        private async Task RemoveProcess(IProcess process)
+        {
             Vm.IPModel.Processes.Remove(process);
             Vm.Refresh();
         }

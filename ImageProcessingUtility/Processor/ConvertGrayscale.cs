@@ -8,8 +8,11 @@ namespace ImageProcessingUtility.Processor
 
         public override Mat Process(Mat image)
         {
-            return image.CvtColor(ColorConversionCodes.BGR2GRAY);
+            if (image.Channels() == 3)
+            {
+                return image.CvtColor(ColorConversionCodes.BGR2GRAY);
+            }
+            return image;
         }
-
     }
 }

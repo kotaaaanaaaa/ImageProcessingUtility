@@ -43,7 +43,6 @@ namespace ImageProcessingUtility
         public void Refresh()
         {
             PropertyChanged.Raise(() => ResultImage);
-            Analyze();
         }
 
         public void Analyze()
@@ -51,9 +50,11 @@ namespace ImageProcessingUtility
             PropertyChanged.Raise(() => SourceBlueHistogram);
             PropertyChanged.Raise(() => SourceGreenHistogram);
             PropertyChanged.Raise(() => SourceRedHistogram);
+            PropertyChanged.Raise(() => SourceHistogram);
             PropertyChanged.Raise(() => ResultBlueHistogram);
             PropertyChanged.Raise(() => ResultGreenHistogram);
             PropertyChanged.Raise(() => ResultRedHistogram);
+            PropertyChanged.Raise(() => ResultHistogram);
         }
     }
 
