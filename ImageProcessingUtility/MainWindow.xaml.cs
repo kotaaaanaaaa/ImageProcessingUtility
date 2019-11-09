@@ -16,10 +16,11 @@ namespace ImageProcessingUtility
         public MainWindow()
         {
             InitializeComponent();
-            var model = new ImageProcessModel();
 
+            var model = new ImageProcessModel();
             model.LoadImage("sample.jpg");
-            Vm = new MainWindowViewModel { IPModel = model };
+            Vm = new MainWindowViewModel(model);
+
             DataContext = Vm;
         }
 

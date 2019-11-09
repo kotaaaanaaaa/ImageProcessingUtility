@@ -1,4 +1,5 @@
-﻿using ImageProcessingUtility.Processor;
+﻿using System;
+using ImageProcessingUtility.Processor;
 using LiveCharts;
 using OpenCvSharp.Extensions;
 using System.ComponentModel;
@@ -10,17 +11,9 @@ namespace ImageProcessingUtility
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public BitmapSource SourceImage { get => IPModel.Source.ToBitmap().ToSource(); }
+        public BitmapSource SourceImage => IPModel.Source.ToBitmap().ToSource();
 
-        public BitmapSource ResultImage
-        {
-            get
-            {
-                IPModel.Process();
-                Analyze();
-                return IPModel.Result.ToBitmap().ToSource();
-            }
-        }
+        public BitmapSource ResultImage => IPModel.Result.ToBitmap().ToSource();
 
         public ImageProcessModel IPModel { get; set; }
 
@@ -40,17 +33,32 @@ namespace ImageProcessingUtility
 
         public ChartValues<double> ResultHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Result); }
 
-        public void Refresh()
+        public MainWindowViewModel()
         {
-            PropertyChanged.Raise(() => ResultImage);
+            throw new NotImplementedException();
         }
 
-        public void Analyze()
+        public MainWindowViewModel(ImageProcessModel ipModel)
         {
+            IPModel = ipModel;
+
             PropertyChanged.Raise(() => SourceBlueHistogram);
             PropertyChanged.Raise(() => SourceGreenHistogram);
             PropertyChanged.Raise(() => SourceRedHistogram);
             PropertyChanged.Raise(() => SourceHistogram);
+
+            Refresh();
+        }
+
+        public void Refresh()
+        {
+            IPModel.Process();
+            PropertyChanged.Raise(() => ResultImage);
+            Analyze();
+        }
+
+        public void Analyze()
+        {
             PropertyChanged.Raise(() => ResultBlueHistogram);
             PropertyChanged.Raise(() => ResultGreenHistogram);
             PropertyChanged.Raise(() => ResultRedHistogram);
@@ -62,7 +70,6 @@ namespace ImageProcessingUtility
     {
         public MainWindowViewModelSample()
         {
-            IPModel = new ImageProcessModel();
             IPModel.AddProcess(new ConvertGrayscale());
             IPModel.AddProcess(new Trim());
         }
