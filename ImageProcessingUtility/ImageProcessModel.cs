@@ -13,6 +13,22 @@ namespace ImageProcessingUtility
 
         public ObservableCollection<IProcess> Processes { get; } = new ObservableCollection<IProcess>();
 
+        public ChartValues<double> SourceBlueHistogram { get; set; }
+
+        public ChartValues<double> SourceGreenHistogram { get; set; }
+
+        public ChartValues<double> SourceRedHistogram { get; set; }
+
+        public ChartValues<double> SourceHistogram { get; set; }
+
+        public ChartValues<double> ResultBlueHistogram { get; set; }
+
+        public ChartValues<double> ResultGreenHistogram { get; set; }
+
+        public ChartValues<double> ResultRedHistogram { get; set; }
+
+        public ChartValues<double> ResultHistogram { get; set; }
+
         public void LoadImage(string path)
         {
             Source = new Mat(path);
@@ -23,7 +39,23 @@ namespace ImageProcessingUtility
             Processes.Add(process);
         }
 
-        public static ChartValues<double> CalcHistogram(Mat img)
+        public void CalcSourceHistogram()
+        {
+            SourceBlueHistogram = CalcHistogram(Source, 0);
+            SourceGreenHistogram = CalcHistogram(Source, 1);
+            SourceRedHistogram = CalcHistogram(Source, 2);
+            SourceHistogram = CalcHistogram(Source);
+        }
+
+        public void CalcResultHistogram()
+        {
+            ResultBlueHistogram = CalcHistogram(Result, 0);
+            ResultGreenHistogram = CalcHistogram(Result, 1);
+            ResultRedHistogram = CalcHistogram(Result, 2);
+            ResultHistogram = CalcHistogram(Result);
+        }
+
+        private static ChartValues<double> CalcHistogram(Mat img)
         {
             if (img.Channels() != 1)
             {
@@ -32,7 +64,7 @@ namespace ImageProcessingUtility
             return CalcHistogramInternal(img, 0);
         }
 
-        public static ChartValues<double> CalcHistogram(Mat img, int channel)
+        private static ChartValues<double> CalcHistogram(Mat img, int channel)
         {
             if (img.Channels() == 1)
             {

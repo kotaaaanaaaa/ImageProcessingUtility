@@ -17,21 +17,21 @@ namespace ImageProcessingUtility
 
         public ImageProcessModel IPModel { get; set; }
 
-        public ChartValues<double> SourceBlueHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Source, 0); }
+        public ChartValues<double> SourceBlueHistogram { get => IPModel.SourceBlueHistogram; }
 
-        public ChartValues<double> SourceGreenHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Source, 1); }
+        public ChartValues<double> SourceGreenHistogram { get => IPModel.SourceGreenHistogram; }
 
-        public ChartValues<double> SourceRedHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Source, 2); }
+        public ChartValues<double> SourceRedHistogram { get => IPModel.SourceRedHistogram; }
 
-        public ChartValues<double> SourceHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Source); }
+        public ChartValues<double> SourceHistogram { get => IPModel.SourceHistogram; }
 
-        public ChartValues<double> ResultBlueHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Result, 0); }
+        public ChartValues<double> ResultBlueHistogram { get => IPModel.ResultBlueHistogram; }
 
-        public ChartValues<double> ResultGreenHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Result, 1); }
+        public ChartValues<double> ResultGreenHistogram { get => IPModel.ResultGreenHistogram; }
 
-        public ChartValues<double> ResultRedHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Result, 2); }
+        public ChartValues<double> ResultRedHistogram { get => IPModel.ResultRedHistogram; }
 
-        public ChartValues<double> ResultHistogram { get => ImageProcessModel.CalcHistogram(IPModel.Result); }
+        public ChartValues<double> ResultHistogram { get => IPModel.ResultHistogram; }
 
         public MainWindowViewModel()
         {
@@ -42,6 +42,7 @@ namespace ImageProcessingUtility
         {
             IPModel = ipModel;
 
+            IPModel.CalcSourceHistogram();
             PropertyChanged.Raise(() => SourceBlueHistogram);
             PropertyChanged.Raise(() => SourceGreenHistogram);
             PropertyChanged.Raise(() => SourceRedHistogram);
@@ -59,6 +60,7 @@ namespace ImageProcessingUtility
 
         public void Analyze()
         {
+            IPModel.CalcResultHistogram();
             PropertyChanged.Raise(() => ResultBlueHistogram);
             PropertyChanged.Raise(() => ResultGreenHistogram);
             PropertyChanged.Raise(() => ResultRedHistogram);
