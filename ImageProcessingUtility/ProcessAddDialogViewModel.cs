@@ -27,6 +27,7 @@ namespace ImageProcessingUtility
             Processes.Add(new Trim());
             Processes.Add(new ConvertGrayscale());
             Processes.Add(new ThresholdBinary());
+            Processes.Add(new Sobel());
         }
     }
 }
